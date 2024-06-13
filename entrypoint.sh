@@ -2,13 +2,8 @@
 
 set -e
 
-export TERM=ansi
-
-_RED=$(tput setaf 1)
-_RESET=$(tput sgr0)
-
 write_red() {
-  echo ${_RED}${1}${_RESET}
+  echo "\033[31m${1}\033[0m"
 }
 
 # Check if PROXY_HOST is valid
