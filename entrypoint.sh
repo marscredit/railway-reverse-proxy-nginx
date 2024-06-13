@@ -12,7 +12,7 @@ write_red() {
 }
 
 # Check if PROXY_HOST is valid
-if [[ $PROXY_HOST != *.railway.internal ]]; then
+if [[ $RAILWAY_TCP_PROXY_DOMAIN != *.railway.internal ]]; then
     write_red "Not a valid host: $PROXY_HOST"
     exit 0
 fi
