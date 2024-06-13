@@ -33,7 +33,8 @@ cat <<EOL > /etc/caddy/Caddyfile
 		format json
 	}
 
-	reverse_proxy http://$HOST_PORT {
+	# Proxy for node1
+	reverse_proxy /node1/* http://node1.marscredit.xyz:30303 {
 		header_up Host {upstream_hostport}
 		header_down Upgrade-Insecure-Requests "1"
 		header_down Content-Security-Policy "upgrade-insecure-requests"
