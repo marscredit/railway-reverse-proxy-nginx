@@ -1,7 +1,4 @@
-FROM nginx:latest
-
-# Copy your Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM caddy:latest
 
 # Copy your entrypoint script
 COPY entrypoint.sh /usr/local/bin/

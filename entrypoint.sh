@@ -17,5 +17,34 @@ if [[ $PROXY_HOST != *.railway.internal ]]; then
     exit 0
 fi
 
-# Start Nginx
-nginx -g 'daemon off;'
+HOST_PORT=${RAILWAY_TCP_PROXY_DOMAIN}:${RAILWAY_TCP_PROXY_PORT}
+
+# Generate Caddyfile content
+cat <<EOL > /etc/caddy/Caddyfile
+{
+	admin off
+	persist_config off
+	auto_https off
+	log {
+		format json
+	}
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+:443 {
+	log {
+		format json
+	}
+
+	reverse_proxy http://$HOST_PORT {
+		header_up Host {upstream_hostport}
+		header_down Upgrade-Insecure-Requests "1"
+		header_down Content-Security-Policy "upgrade-insecure-requests"
+	}
+}
+EOL
+
+# Start Caddy
+caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
